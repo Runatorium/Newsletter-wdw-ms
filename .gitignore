@@ -1,0 +1,95 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.env/
+.conda/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.dmypy.json
+.ruff_cache/
+.tox/
+.nox/
+dist/
+build/
+*.egg-info/
+.eggs/
+wheels/
+pip-log.txt
+pip-delete-this-directory.txt
+*.egg
+MANIFEST
+*.manifest
+site/
+
+# Type check / coverage
+*.cover
+.hypothesis/
+nosetests.xml
+coverage.xml
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+!.env.example
+*.log
+*.pem
+*.key
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-workspace
+*.sublime-project
+.history/
+
+# Node (Vite / frontend)
+node_modules/
+.pnpm-store/
+.pnp.*
+yarn-error.log
+npm-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.tsbuildinfo
+frontend/.vite/
+.cache/
+
+# Frontend build output
+frontend/dist/
+storybook-static/
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Local DBs & temp
+*.sqlite3
+*.db
+.eslintcache
+.stylelintcache
+*.orig
+*.bak
+*.tmp
+*.temp
+.sass-cache/

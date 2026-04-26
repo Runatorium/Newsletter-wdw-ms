@@ -1,0 +1,1 @@
+"""Newsletter WDW microservice."""

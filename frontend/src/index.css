@@ -1,0 +1,44 @@
+:root {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #e8e8ed;
+  background-color: #0e1117;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+a {
+  color: #7eb8ff;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+/* Base table; dashboards use .table-wrap rules in App.css */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+code {
+  font-size: 0.85em;
+  background: #1a1f2b;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
