@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 import sqlalchemy as sa
 from sqlalchemy import and_, or_
@@ -10,6 +10,7 @@ from app.models.company import Company
 from app.models.diver import Diver
 from app.models.diver_subscription import DiverSubscription
 from app.models.company_subscription import CompanySubscription
+from app.models.job import Job
 
 
 def diver_list_filter(
@@ -128,6 +129,43 @@ def company_subscription_filter(
     st = (status or "").strip().lower()
     if st and st != "all":
         parts.append(CompanySubscription.status == st)
+    if not parts:
+        return sa.true()  # type: ignore[return-value]
+    return and_(*parts)
+
+
+def _naive_utc_now() -> datetime:
+    return datetime.now(timezone.utc).replace(tzinfo=None)
+
+
+def _iso_week_start_naive_utc() -> datetime:
+    n = _naive_utc_now()
+    d = n.date()
+    monday = d - timedelta(days=d.weekday())
+    return datetime.combine(monday, datetime.min.time())
+
+
+def job_position_list_filter(
+    *,
+    location: str | None,
+    posted_from: datetime | None,
+    posted_to: datetime | None,
+    posted_this_week: bool = False,
+) -> ColumnElement[bool]:
+    parts: list[ColumnElement[bool]] = []
+    loc = (location or "").strip()
+    if loc:
+        parts.append(Job.location.ilike(f"%{loc}%"))
+    if posted_this_week:
+        week_start = _iso_week_start_naive_utc()
+        lower = week_start
+        if posted_from is not None and posted_from > lower:
+            lower = posted_from
+        parts.append(Job.created_at >= lower)
+    elif posted_from is not None:
+        parts.append(Job.created_at >= posted_from)
+    if posted_to is not None:
+        parts.append(Job.created_at <= posted_to)
     if not parts:
         return sa.true()  # type: ignore[return-value]
     return and_(*parts)

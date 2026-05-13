@@ -1,9 +1,19 @@
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
 :root {
-  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI",
+    system-ui, sans-serif;
+  line-height: 1.47;
   font-weight: 400;
-  color: #e8e8ed;
-  background-color: #0e1117;
+  color: #f2f2f7;
+  background-color: #000000;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -16,11 +26,13 @@
 
 body {
   margin: 0;
-  min-height: 100vh;
+  min-height: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 a {
-  color: #7eb8ff;
+  color: #0a84ff;
 }
 
 h1,
@@ -38,7 +50,8 @@ table {
 
 code {
   font-size: 0.85em;
-  background: #1a1f2b;
-  padding: 0.1rem 0.35rem;
-  border-radius: 4px;
+  background: #2c2c2e;
+  padding: 0.12rem 0.4rem;
+  border-radius: 6px;
+  color: #ebebf5;
 }

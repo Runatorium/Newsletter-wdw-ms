@@ -24,6 +24,14 @@ async function j<T>(path: string, init?: RequestInit): Promise<T> {
   return r.json() as Promise<T>;
 }
 
+async function jpost<T>(path: string, body: unknown): Promise<T> {
+  return j<T>(path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+}
+
 export type PeriodCounts = {
   last_day: number;
   last_week: number;
@@ -111,6 +119,69 @@ export type SubscriptionListParams = {
   status?: string;
 };
 
+export type JobPositionRead = {
+  id: number;
+  title: string;
+  location: string | null;
+  posted_at: string;
+  company_name: string | null;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  certification_count: number;
+};
+
+export type JobPositionList = { items: JobPositionRead[]; total: number };
+
+export type JobPositionListParams = {
+  skip?: number;
+  limit?: number;
+  location?: string;
+  posted_from?: string;
+  posted_to?: string;
+  posted_this_week?: boolean;
+};
+
+export type DiverCertMatchRequest = {
+  job_ids: number[];
+};
+
+export type DiverCertMatchItem = {
+  diver: DiverRead;
+  match_percent: number;
+  matched_certifications: string[];
+  missing_certifications: string[];
+  required_total: number;
+  matched_count: number;
+};
+
+export type DiverCertMatchResponse = {
+  items: DiverCertMatchItem[];
+  partial_items: DiverCertMatchItem[];
+  required_certifications: string[];
+  job_ids: number[];
+  message: string | null;
+};
+
+export type NewsletterEmailPreviewResponse = {
+  subject: string;
+  body_html: string;
+  body_text: string;
+  to_email: string;
+  to_name: string;
+  job_count: number;
+};
+
+export type NewsletterEmailSendError = {
+  diver_id: number;
+  detail: string;
+};
+
+export type NewsletterEmailSendResponse = {
+  sent: number;
+  errors: NewsletterEmailSendError[];
+};
+
 export const api = {
   divers: (p: DiverListParams = {}) =>
     j<DiverList>(`/divers${qs(p)}`),
@@ -126,4 +197,16 @@ export const api = {
 
   activeCompanySubs: (p: SubscriptionListParams = {}) =>
     j<SubCompanyList>(`/subscriptions/companies/active${qs(p)}`),
+
+  jobPositions: (p: JobPositionListParams = {}) =>
+    j<JobPositionList>(`/job-positions${qs(p)}`),
+
+  diverCertMatches: (body: DiverCertMatchRequest) =>
+    jpost<DiverCertMatchResponse>(`/newsletter/diver-cert-matches`, body),
+
+  newsletterEmailPreview: (body: { job_ids: number[]; diver_id: number }) =>
+    jpost<NewsletterEmailPreviewResponse>(`/newsletter/email/preview`, body),
+
+  newsletterEmailSend: (body: { job_ids: number[]; diver_ids: number[] }) =>
+    jpost<NewsletterEmailSendResponse>(`/newsletter/email/send`, body),
 };
